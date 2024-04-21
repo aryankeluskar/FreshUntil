@@ -1,6 +1,6 @@
 import pip
 import sys
-package = 'fastapi pymongo uvicorn[standard]'
+package = 'fastapi'
 if not package in sys.modules:
     pip.main(['install', package])
 
