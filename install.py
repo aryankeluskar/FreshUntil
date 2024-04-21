@@ -1,6 +1,6 @@
 import pip
 import sys
-package = 'fastapi'
+package = 'python-multipart'
 if not package in sys.modules:
     pip.main(['install', package])
 

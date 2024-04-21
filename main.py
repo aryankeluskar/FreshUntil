@@ -1,3 +1,4 @@
+import io
 from fastapi import FastAPI, Response, Cookie, Request
 import requests
 import json
@@ -29,7 +30,7 @@ async def root():
 
 import google.generativeai as genai
 from IPython.display import Image
-from PIL import Image as image
+from PIL import Image
 
 import os
 from dotenv import load_dotenv
@@ -38,7 +39,7 @@ load_dotenv()
 
 # route called '/scanreceipt' that takes an image file as input and returns some dummy text
 @app.post("/scanreceipt")
-async def scan_receipt(image: UploadFile):
+async def scan_receipt(receiptimg: UploadFile):
     # # Process the image here
     # # create a json with multiple arrays of 'ingridient'
     # # every ingridient has a name, quantity, expirationDate and weight
@@ -51,10 +52,15 @@ async def scan_receipt(image: UploadFile):
 
     genai.configure(api_key=os.getenv("GOOGLE_API_KEY"))
 
-    rec = genai.upload_file(image.file, display_name="receipt2.png")
+    # rec = genai.upload_file(io.BytesIO(image.file.read()).getbuffer().tobytes(), display_name="receipt2.png")
+
+    # rec = genai.upload_file(io.BytesIO(image.file.read()).getbuffer().tobytes(), display_name="receipt2.png")
+
     model = genai.GenerativeModel(model_name="models/gemini-pro-vision")
 
-    response = model.generate_content(["parse the receipt and tell me what items did i buy and what quantity. return a string formatted as [['item_name', 'quantity'],['item_name', 'quantity'], ['item_name', 'quantity']]. make sure to use single quotes and avoid double quotes, do not return anything before [ or after ]", rec])
+    image = Image.open(receiptimg.file)
+
+    response = model.generate_content([image, "parse the receipt and tell me what items did i buy and what quantity. return a string formatted as [['item_name', 'quantity'],['item_name', 'quantity'], ['item_name', 'quantity']]. make sure to use single quotes and avoid double quotes, do not return anything before [ or after ]"])
     # print(response)
     # print(response.text)
 
@@ -82,6 +88,7 @@ async def scan_receipt(image: UploadFile):
         data.append({"name": i[0], "expirationDate": i[2], "quantity": i[1]})
 
     out = json.dumps(data, indent=4)
+    return out
 
 
 @app.post("/addIngredients")
