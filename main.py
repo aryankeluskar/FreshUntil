@@ -9,9 +9,9 @@ load_dotenv()
 
 app = FastAPI()
 
-# @app.get("/")
-# async def root():
-#     return "Choose one of the two paths: /convertFromISO or /convertFromMilliseconds \nPass duration as a query parameter."
+@app.get("/")
+async def root():
+    return "Choose one of the two paths: /convertFromISO or /convertFromMilliseconds \nPass duration as a query parameter."
 
 
 # @app.get("/help")
