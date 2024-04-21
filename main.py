@@ -43,7 +43,7 @@ async def scan_receipt(image: UploadFile):
 
 @app.post("/addIngredients")
 # ingredients: list of str
-async def add_ingredients(ingredients: list):
+async def add_ingredients(ingredients: any):
     try:
         print(ingredients)
         print("received ingredients")
@@ -52,7 +52,8 @@ async def add_ingredients(ingredients: list):
         return False
     
 @app.post("/findRecipes")
-async def find_recipes(ingredients: list):
+async def find_recipes(ingredients: any):
+    print(ingredients)
     outrec = []
     outrec.append({"name": "Apple Pie", "ingredients": ["apple", "flour", "sugar", "butter"], "steps": ["1. first", "2.second", ["3. bake"]]})
     outrec.append({"name": "Salad", "ingredients": ["apple", "tomato", "cucumber", "carrot"], "steps": ["1. Wash the vegetables", "2. Chop the vegetables", "3. Mix the vegetables"]})
