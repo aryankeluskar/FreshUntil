@@ -1,3 +1,4 @@
+import base64
 import io
 from fastapi import FastAPI, Response, Cookie, Request
 import requests
@@ -34,11 +35,13 @@ from PIL import Image
 
 import os
 from dotenv import load_dotenv
+import ast
+import json
 load_dotenv()
 
 
 @app.post("/hardscanreceipt")
-async def scan_receipt(receiptimg: UploadFile):
+async def fhi(receiptimg: UploadFile):
     return {"ingridients": [{"name": "apple", "quantity": 3, "expirationDate": "2022-04-01", "weight": 0.5},
                         {"name": "banana", "quantity": 5, "expirationDate": "2022-04-01", "weight": 0.5},
                         {"name": "orange", "quantity": 2, "expirationDate": "2022-04-01", "weight": 0.5},
@@ -47,12 +50,14 @@ async def scan_receipt(receiptimg: UploadFile):
 
 
 # route called '/scanreceipt' that takes an image file as input and returns some dummy text
-@app.post("/scanreceipt")
-async def scan_receipt(receiptimg: UploadFile):
-    # # Process the image here
-    # # create a json with multiple arrays of 'ingridient'
-    # # every ingridient has a name, quantity, expirationDate and weight
-    # # return the json
+@app.post("/scanreceipt/")
+async def scan_receipt(rec: dict):
+    receiptURI = rec.get("receiptURI")
+    print(receiptURI[:50])
+    # Process the image here
+    # create a json with multiple arrays of 'ingridient'
+    # every ingridient has a name, quantity, expirationDate and weight
+    # return the json
     # return {"ingridients": [{"name": "apple", "quantity": 3, "expirationDate": "2022-04-01", "weight": 0.5},
     #                         {"name": "banana", "quantity": 5, "expirationDate": "2022-04-01", "weight": 0.5},
     #                         {"name": "orange", "quantity": 2, "expirationDate": "2022-04-01", "weight": 0.5},
@@ -65,12 +70,22 @@ async def scan_receipt(receiptimg: UploadFile):
 
     # rec = genai.upload_file(io.BytesIO(image.file.read()).getbuffer().tobytes(), display_name="receipt2.png")
 
-    model = genai.GenerativeModel(model_name="models/gemini-pro-vision")
 
-    image = Image.open(receiptimg.file)
+    # image = Image.open(receiptimg.file)
+
+    # convert URI to image file and save in image
+    # example_uri = "data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAABgAAAAYCAYAAADgdz34AAABjElEQVRIS+2Uz0oDQRSGz4"
+    model = genai.GenerativeModel(model_name="models/gemini-pro-vision")
+    # image = Image.open(io.BytesIO(requests.get(receiptURI).content))
+
+    decoded_image = base64.urlsafe_b64decode(receiptURI)
+    image_file = io.BytesIO(decoded_image)
+
+    image = Image.open(image_file)
+
 
     response = model.generate_content([image, "parse the receipt and tell me what items did i buy and what quantity. return a string formatted as [['item_name', 'quantity'],['item_name', 'quantity'], ['item_name', 'quantity']]. make sure to use single quotes and avoid double quotes, do not return anything before [ or after ]"])
-    # print(response)
+    print(response)
     # print(response.text)
 
     # the output is:
@@ -79,7 +94,6 @@ async def scan_receipt(receiptimg: UploadFile):
     # ```
     # create a json from the string where there is a array of 'ingredient', which has a 'name', 'expirationDate' and 'quantity' key
 
-    import ast
     items = ast.literal_eval(response.text)
     for i in items:
         print(f"Item: {i[0]}, Quantity: {i[1]}")
@@ -91,7 +105,6 @@ async def scan_receipt(receiptimg: UploadFile):
 
 
 
-    import json
     data = []
     for i in items:
         data.append({"name": i[0], "expirationDate": i[2], "quantity": i[1]})
