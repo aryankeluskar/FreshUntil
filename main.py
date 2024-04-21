@@ -37,6 +37,15 @@ from dotenv import load_dotenv
 load_dotenv()
 
 
+@app.post("/hardscanreceipt")
+async def scan_receipt(receiptimg: UploadFile):
+    return {"ingridients": [{"name": "apple", "quantity": 3, "expirationDate": "2022-04-01", "weight": 0.5},
+                        {"name": "banana", "quantity": 5, "expirationDate": "2022-04-01", "weight": 0.5},
+                        {"name": "orange", "quantity": 2, "expirationDate": "2022-04-01", "weight": 0.5},
+                        {"name": "potato", "quantity": 3, "expirationDate": "2022-04-01", "weight": 0.5},
+                        {"name": "tomato", "quantity": 4, "xexpirationDate": "2022-04-01", "weight": 0.5}]}
+
+
 # route called '/scanreceipt' that takes an image file as input and returns some dummy text
 @app.post("/scanreceipt")
 async def scan_receipt(receiptimg: UploadFile):
