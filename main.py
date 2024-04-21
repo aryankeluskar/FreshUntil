@@ -41,7 +41,7 @@ async def scan_receipt(image: UploadFile):
                             {"name": "potato", "quantity": 3, "expirationDate": "2022-04-01", "weight": 0.5},
                             {"name": "tomato", "quantity": 4, "xexpirationDate": "2022-04-01", "weight": 0.5}]}
 
-@app.get("/addIngredients")
+@app.post("/addIngredients")
 # ingredients: list of str
 async def add_ingredients(ingredients: list):
     try:
@@ -51,7 +51,7 @@ async def add_ingredients(ingredients: list):
     except:
         return False
     
-@app.get("/findRecipes")
+@app.post("/findRecipes")
 async def find_recipes(ingredients: list):
     outrec = []
     outrec.append({"name": "Apple Pie", "ingredients": ["apple", "flour", "sugar", "butter"], "steps": ["1. first", "2.second", ["3. bake"]]})
