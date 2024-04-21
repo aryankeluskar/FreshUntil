@@ -51,7 +51,7 @@ async def scan_receipt(image: UploadFile):
 
     genai.configure(api_key=os.getenv("GOOGLE_API_KEY"))
 
-    rec = genai.upload_file(path="./receipt2.png", display_name="receipt2.png")
+    rec = genai.upload_image(image.file, display_name="receipt2.png")
     model = genai.GenerativeModel(model_name="models/gemini-pro-vision")
 
     response = model.generate_content(["parse the receipt and tell me what items did i buy and what quantity. return a string formatted as [['item_name', 'quantity'],['item_name', 'quantity'], ['item_name', 'quantity']]. make sure to use single quotes and avoid double quotes, do not return anything before [ or after ]", rec])
