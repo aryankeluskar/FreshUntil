@@ -53,7 +53,7 @@ async def fhi(receiptimg: UploadFile):
 @app.post("/scanreceipt/")
 async def scan_receipt(rec: dict):
     receiptURI = rec.get("receiptURI")
-    print(receiptURI[:50])
+    # print(receiptURI[:50])
     # Process the image here
     # create a json with multiple arrays of 'ingridient'
     # every ingridient has a name, quantity, expirationDate and weight
@@ -64,7 +64,6 @@ async def scan_receipt(rec: dict):
     #                         {"name": "potato", "quantity": 3, "expirationDate": "2022-04-01", "weight": 0.5},
     #                         {"name": "tomato", "quantity": 4, "xexpirationDate": "2022-04-01", "weight": 0.5}]}
 
-    genai.configure(api_key=os.getenv("GOOGLE_API_KEY"))
 
     # rec = genai.upload_file(io.BytesIO(image.file.read()).getbuffer().tobytes(), display_name="receipt2.png")
 
@@ -75,6 +74,7 @@ async def scan_receipt(rec: dict):
 
     # convert URI to image file and save in image
     # example_uri = "data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAABgAAAAYCAYAAADgdz34AAABjElEQVRIS+2Uz0oDQRSGz4"
+    genai.configure(api_key=os.getenv("GOOGLE_API_KEY"))
     model = genai.GenerativeModel(model_name="models/gemini-pro-vision")
     # image = Image.open(io.BytesIO(requests.get(receiptURI).content))
 
