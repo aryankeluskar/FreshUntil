@@ -1,41 +1,51 @@
-# Simplest API Ever! Convert duration from ISO Form to Millisecond
-Built using Python, FastAPI, hosted on Render.com <br>
-Multiple APIs (like YouTube's) return media's duration in ISO Format but most data is processed with Milliseconds. I created this simple-to-use **Web API** to convert either form to the other. 
-#### You get: _Skip coding logic, Directly process Milliseconds, Peace of Mind_ <br> I get _(hopefully): Star, Heart, Follow :)_
+## Inspiration
+As college students, we often find ourselves buying groceries in optimism, planning meals that sometimes never come to fruition. This common scenario is not just limited to student life; it's a widespread issue that leads to a significant amount of food waste. Each year, countless homes waste precious resources by overbuying or mismanaging their pantries, contributing to a staggering amount of edible food that ends up in landfills. Motivated by these observations and the desire to make a meaningful impact on our environment, we sought to develop a solution that could help reduce this waste in a practical, user-friendly way.
 
-## Install (Only if local instance needed)
-    Requirements: gh, pip, python 3.12+
-    Run the following commands:
-    gh repo clone aryankeluskar/ISO-Duration-Converter
-    pip install fastapi
-    pip install "uvicorn[standard]"
+In today's fast-paced world, it’s easy to overlook the impact our everyday actions can have on the environment. Food waste is one of the many areas where individual actions can lead to significant environmental consequences. Inspired by our experiences and the broader implications of food wastage, we decided to create "**FreshUntil**," a web-app designed to help individuals manage their groceries more efficiently. This app not only aims to minimize food waste but also helps maximize the use of each item purchased, encouraging users to become more mindful and environmentally responsible consumers.
+
+## What it does
+"FreshUntil" leverages cutting-edge technology to tackle the common problem of food wastage by helping users manage their groceries more effectively. At the core of our web-app is a robust feature that allows users to scan their grocery receipts or shopping carts. This scanning capability is powered by **Google's Gemini API**, which extracts text from images—specifically, the details of purchased items including their expiry dates. Once scanned, our app automatically organizes the items into a user-friendly dashboard, providing a clear and convenient display of each product's remaining shelf life.
+
+To enhance user engagement and prevent food from expiring unnoticed, "**FreshUntil**" sends timely notifications to remind users of approaching expiry dates. These alerts help users consume their groceries while they are still fresh, thus minimizing waste. For groceries nearing their expiry, our app offers an innovative solution: with the press of a button, users can access the 'Search Recipe' feature. This functionality uses the 
+**Spoonacular API**, accessed through **RapidAPI**, to suggest recipes based on the ingredients currently available in the user's pantry. This not only encourages culinary creativity but also ensures that no item is wasted.
+
+Our app does more than just track groceries; it transforms the way users think about and utilize their purchases. By integrating with these powerful APIs, "**FreshUntil**" not only provides practical solutions to reduce food waste but also offers a seamless and interactive experience. Users can easily manage their pantry, discover delicious recipes, and make environmentally conscious decisions, all through a single intuitive platform. This integration of technology and usability makes "FreshUntil" a key player in promoting sustainable living habits.
+
+## How we built it
+"FreshUntil" is crafted with a robust and modern technology stack that seamlessly integrates front-end interactivity with powerful backend processing. Our goal was to create an intuitive and responsive web application that provides real-time updates and interactive experiences to the users.
+
+![dataflow diagram](https://raw.githubusercontent.com/MekhiHart/LAHacks-2024/main/lahack-dataflow.png)
+
+Frontend
+The frontend of "FreshUntil" is developed using ReactJS, a popular JavaScript library known for its efficiency and flexibility in building user interfaces. ReactJS allowed us to create a dynamic and responsive single-page application (SPA). We utilized its component-based architecture to manage the complex state and props throughout the application, ensuring that the user interface is fast, responsive, and engaging. Components like the grocery scanner, recipe finder, and expiry tracker were meticulously designed to provide a seamless user experience.
+
+Backend
+For the backend, we chose Python due to its simplicity and powerful libraries. Python's diverse ecosystem and robust frameworks such as Flask and Django make it ideal for handling backend logic, including API integrations and database interactions. We used Flask for this project, which provided us the flexibility to develop RESTful APIs that interact with our frontend seamlessly. These APIs handle tasks such as image processing for receipt scanning, fetching recipes from external APIs, and sending notifications to users.
+
+**APIs**
+Our application integrates with several external APIs to enhance its functionality:
+
+**Google's Gemini API**: This API is crucial for our receipt scanning feature, where it processes images of grocery receipts to extract text. This text extraction allows us to identify purchased items and their expiry dates.
 
 
-## Run the app (Only if local instance needed)
-    uvicorn main:app --reload
-Open your broswer at [http://127.0.0.1:8000](http://127.0.0.1:8000)
+**Spoonacular API**: Accessed via RapidAPI, this API is used to fetch recipes based on the ingredients detected from the receipts. It offers a vast database of recipes which allows our users to find multiple ways to use their groceries effectively.
 
-## Usage
-Visit [iso-duration-converter.onrender.com](https://iso-duration-converter.onrender.com/) to access this API <br>
-Visit [detailed API documentation here](https://iso-duration-converter.onrender.com/docs) generated with OpenAPI.json <br>
-Example: https://iso-duration-converter.onrender.com/convertFromISO?duration=PT5H21M49S responds with [19309000]() which can be processed with HttpRequest in Java, or requests.get in Python.
+**Database**
 
-### GET /
-    Parameters: None 
-    Response: (string) Displays the valid paths available
-    
-<hr>
+**MongoDB**, a NoSQL database, was chosen for its flexibility and performance in handling large volumes of data. **MongoDB's** schema-less nature allows us to store unstructured data and handle varied document types, which is ideal for storing diverse grocery items and user data. We use MongoDB to keep track of user profiles, grocery inventories, expiry dates, and recipe suggestions.
+## Challenges we ran into
+One of the primary challenges we faced during the development of "FreshUntil" was integrating multiple external APIs seamlessly. The initial setup of Google’s Gemini API for optical character recognition (OCR) to scan grocery receipts and extract usable data proved to be complex. We encountered several issues related to the accuracy and reliability of the text extraction, especially with different receipt formats and quality. Additionally, integrating the Spoonacular API presented challenges in accurately mapping the extracted grocery items to the corresponding recipes. Achieving a seamless flow of data between these services and ensuring that the user receives accurate and relevant recipe suggestions based on their specific pantry items required extensive testing and refinement.
 
-### GET /convertFromISO
-    Parameters: duration (string) Duration in ISO Format
-    Response: (int) Duration in Milliseconds
-    
-<hr>
+Another significant challenge was optimizing the MongoDB database for performance and scalability. As our app relies heavily on real-time data transactions, particularly for updating grocery lists and fetching recipes, we needed to ensure that our database operations were efficient and fast. We ran into difficulties with database schema design, which initially led to slow query times and a less responsive application. Overcoming these challenges involved restructuring our database indexes and queries, which was a learning curve for the team. Additionally, ensuring that our application was responsive and intuitive required a delicate balance between React's re-rendering processes and the state management, which took considerable debugging and optimization to get right.
+## Accomplishments that we're proud of
+One of our proudest achievements in developing "FreshUntil" has been our ability to create a fully functional application that directly addresses the pervasive issue of food waste. Successfully integrating complex technologies such as Google's Gemini API for text recognition and Spoonacular’s vast recipe database represents a significant technical accomplishment. This integration not only enhances user engagement by providing actionable solutions but also encourages sustainable living through smart pantry management. Our app effectively reduces food waste by alerting users to expiry dates and suggesting recipes to utilize items before they spoil, thereby fostering a more sustainable consumption pattern.
 
-### GET /convertFromMilliseconds
-    Parameters: duration (int) Duration in Milliseconds
-    Response: (string) Duration in ISO Format
-    
-## Support this project!
-### This is my first ever API! Please consider leaving a 🌟 if this added value to your wonderful project
-### Made with pure love and [freshman fascination](## "it's a real term i swear"). Visit my website at [aryankeluskar.github.io](https://aryankeluskar.github.io) <3
+Additionally, we are immensely proud of the user experience and interface we designed. The intuitive layout and responsive design of "FreshUntil" make it accessible to a broad audience, including those with minimal technical experience. Achieving this level of simplicity, while maintaining functionality, required careful planning, design, and testing to ensure that our app is both aesthetically pleasing and highly functional. Our team's ability to collaborate effectively, leveraging each member's strengths, has been instrumental in overcoming challenges and achieving our project goals. This collaborative success has not only resulted in a great product but has also contributed significantly to our growth as developers and designers.
+## What we learned
+Throughout the development of "FreshUntil," our team gained invaluable insights into both the technical and practical aspects of building a full-fledged web application. We learned how to effectively integrate various technologies such as ReactJS, Python, MongoDB, and external APIs like Google’s Gemini and Spoonacular. This project enhanced our skills in front-end and back-end development, deepening our understanding of how to create interactive and user-friendly interfaces while managing a reliable and efficient server-side application. Working with image processing for the first time presented a unique challenge, particularly in extracting text from images of receipts. We navigated this challenge by experimenting with different methodologies and libraries, ultimately learning how to fine-tune our approach for optimal results.
+
+Additionally, this project was a significant learning experience in terms of teamwork and problem-solving. We learned the importance of clear communication and regular collaboration, especially when integrating different parts of the application to work seamlessly together. Handling data efficiently, particularly with a non-relational database like MongoDB, taught us about schema design and the benefits of flexible data structures. Furthermore, we gained a deeper appreciation for the role of technology in addressing environmental issues such as food waste, learning how software solutions can have a real-world impact on sustainability. This project not only sharpened our technical skills but also broadened our perspective on the potential for technology to solve complex problems and improve daily life.
+## What's next for FreshUntil
+Looking ahead, "FreshUntil" aims to expand its capabilities by integrating a community sharing feature. This innovative addition will enable users to share surplus ingredients and groceries with others in their local area. By creating a community-based platform within the app, users can post items they don't plan to use before they expire and offer them to neighbors, thus fostering a sense of community and collective responsibility. This not only helps in reducing food waste on a larger scale but also promotes social interaction and supports those in need within the community. The sharing feature will include secure messaging and notifications to keep users informed about available items and facilitate easy pickups.
+
+Further development will focus on enhancing the user experience and broadening the app’s impact through gamification elements such as rewards for frequent users who actively participate in reducing food waste and community sharing. We also plan to integrate more sophisticated AI algorithms to improve the accuracy of expiry tracking and recipe suggestions based on users' eating preferences and habits. By continuously evolving and integrating user feedback into the development process, "FreshUntil" will strive to not only be a tool for managing groceries more effectively but also a movement towards a more sustainable and waste-free world.
