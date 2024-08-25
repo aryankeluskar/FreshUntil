@@ -1,3 +1,9 @@
+<a href="https://devpost.com/software/freshuntil-4ol2qy">
+<p align="center">
+  <img src="https://raw.githubusercontent.com/aryankeluskar/FreshUntil/master/freshuntil_logo.png">
+</p>
+</a>
+
 ## Inspiration
 As college students, we often find ourselves buying groceries in optimism, planning meals that sometimes never come to fruition. This common scenario is not just limited to student life; it's a widespread issue that leads to a significant amount of food waste. Each year, countless homes waste precious resources by overbuying or mismanaging their pantries, contributing to a staggering amount of edible food that ends up in landfills. Motivated by these observations and the desire to make a meaningful impact on our environment, we sought to develop a solution that could help reduce this waste in a practical, user-friendly way.
 
